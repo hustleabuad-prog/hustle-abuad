@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hustle | Premium Student Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">
+                <span style="font-size: 1.5rem;">💼</span> 
+                <span class="logo-text">Hustle</span>
+            </a>
+            <div id="auth-container">
+                <div id="logged-out-state">
+                    <button class="btn-text" id="open-login">Log in</button>
+                    <button class="btn-primary" id="open-signup">Sign up</button>
+                </div>
+                <div id="logged-in-state" style="display: none;" class="user-profile">
+                    <button class="btn-text" id="view-my-gigs">My Gigs</button>
+                    <strong id="display-name" style="color: #fff; margin: 0 15px;">Student</strong>
+                    <button class="btn-logout" id="logout-btn">Log out</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">Campus <span class="text-gradient">Hustle.</span></h1>
+                <p class="hero-subtitle">The elite marketplace for student talent.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="filter-section">
+                <input type="text" id="search-gigs" placeholder="Search gigs (e.g. 'Math', 'Delivery')...">
+                <div class="category-pills" id="category-pills">
+                    <button class="pill active" data-cat="All">All</button>
+                    <button class="pill" data-cat="📚 Tutoring">Tutoring</button>
+                    <button class="pill" data-cat="🏃 Errands">Errands</button>
+                    <button class="pill" data-cat="💻 Tech">Tech</button>
+                    <button class="pill" data-cat="🎨 Creative">Creative</button>
+                </div>
+            </div>
+
+            <section id="post-gig-area" style="display: none; margin-bottom: 60px;">
+                <div class="card">
+                    <h3 style="margin-bottom: 20px; color: var(--cyber-cyan);">Post a New Gig</h3>
+                    <form id="gig-form">
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
+                            <input type="text" id="gTitle" placeholder="Gig Title" required minlength="5">
+                            <select id="gCategory" class="custom-select" required>
+                                <option value="📚 Tutoring">Tutoring</option>
+                                <option value="🏃 Errands">Errands</option>
+                                <option value="💻 Tech">Tech</option>
+                                <option value="🎨 Creative">Creative</option>
+                            </select>
+                        </div>
+                        <input type="text" id="gPrice" placeholder="Price (e.g. ₦2,000 or $15/hr)" required>
+                        <textarea id="gDesc" placeholder="Details..." rows="3" required minlength="10"></textarea>
+                        <button type="submit" class="btn-primary w-full" id="submit-gig-btn">Publish Gig</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="gigs-list">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2 id="feed-title" style="font-family: var(--font-head); font-size: 2rem;">Active Feed</h2>
+                    <button id="back-to-all" class="btn-text" style="display: none; color: var(--cyber-cyan);">← Back to All</button>
+                </div>
+                <div id="gigs-container" class="gigs-grid"></div>
+            </section>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-card">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <h2 id="modal-title">Join</h2>
+            <form id="auth-form">
+                <div id="signup-only-fields">
+                    <input type="text" id="auth-name" placeholder="Full Name">
+                    <input type="tel" id="auth-whatsapp" placeholder="WhatsApp (e.g. 234...)">
+                </div>
+                <input type="email" id="auth-email" placeholder="Email" required>
+                <input type="password" id="auth-password" placeholder="Password" required minlength="6">
+                <button type="submit" class="btn-primary w-full" id="auth-submit-btn">Continue</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="#" id="toggle-auth-type" style="color: var(--cyber-cyan); font-weight: 700; text-decoration: none;">Login instead</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
