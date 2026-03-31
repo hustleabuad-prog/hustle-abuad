@@ -15,15 +15,30 @@
                 <span style="font-size: 1.5rem;">💼</span> 
                 <span class="logo-text">Hustle</span>
             </a>
-            <div id="auth-container">
-                <div id="logged-out-state">
-                    <button class="btn-text" id="open-login">Log in</button>
-                    <button class="btn-primary" id="open-signup">Sign up</button>
-                </div>
-                <div id="logged-in-state" style="display: none;" class="user-profile">
-                    <button class="btn-text" id="view-my-gigs">My Gigs</button>
-                    <strong id="display-name" style="color: #fff; margin: 0 15px;">Student</strong>
-                    <button class="btn-logout" id="logout-btn">Log out</button>
+            
+            <button id="mobile-menu-btn" class="mobile-menu-btn">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="nav-links" id="nav-links">
+                <button id="theme-toggle" class="theme-btn">
+                    <span id="theme-icon">☀️</span>
+                </button>
+
+                <div id="auth-container">
+                    <div id="logged-out-state" class="auth-group">
+                        <button class="btn-text" id="open-login">Log in</button>
+                        <button class="btn-primary" id="open-signup">Sign up</button>
+                    </div>
+                    <div id="logged-in-state" style="display: none;" class="auth-group">
+                        <button class="btn-text" id="view-my-gigs">My Gigs</button>
+                        <span class="user-greeting">Hi, <strong id="display-name" style="color: var(--text-main);">Student</strong></span>
+                        <button class="btn-logout" id="logout-btn">Log out</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,7 +68,7 @@
                 <div class="card">
                     <h3 style="margin-bottom: 20px; color: var(--cyber-cyan);">Post a New Gig</h3>
                     <form id="gig-form">
-                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
+                        <div class="form-grid">
                             <input type="text" id="gTitle" placeholder="Gig Title" required minlength="5">
                             <select id="gCategory" class="custom-select" required>
                                 <option value="📚 Tutoring">Tutoring</option>
@@ -72,7 +87,7 @@
             <section id="gigs-list">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
                     <h2 id="feed-title" style="font-family: var(--font-head); font-size: 2rem;">Active Feed</h2>
-                    <button id="back-to-all" class="btn-text" style="display: none; color: var(--cyber-cyan);">← Back to All</button>
+                    <button id="back-to-all" class="btn-text" style="display: none; color: var(--cyber-cyan); margin: 0;">← Back</button>
                 </div>
                 <div id="gigs-container" class="gigs-grid"></div>
             </section>
@@ -86,9 +101,20 @@
             <form id="auth-form">
                 <div id="signup-only-fields">
                     <input type="text" id="auth-name" placeholder="Full Name">
-                    <input type="tel" id="auth-whatsapp" placeholder="WhatsApp (e.g. 234...)">
+                    <label style="display:block; margin-bottom: 8px; margin-top: 15px; color: var(--text-dim); font-size: 0.85rem; font-weight: 600;">WhatsApp Number</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <select id="auth-country-code" class="custom-select" style="width: 35%; margin-bottom: 0;">
+                            <option value="234">🇳🇬 +234</option>
+                            <option value="1">🇺🇸 +1</option>
+                            <option value="44">🇬🇧 +44</option>
+                            <option value="27">🇿🇦 +27</option>
+                            <option value="254">🇰🇪 +254</option>
+                            <option value="233">🇬🇭 +233</option>
+                        </select>
+                        <input type="tel" id="auth-whatsapp" placeholder="801 234 5678" style="width: 65%; margin-bottom: 0;">
+                    </div>
                 </div>
-                <input type="email" id="auth-email" placeholder="Email" required>
+                <input type="email" id="auth-email" placeholder="Email" required style="margin-top: 15px;">
                 <input type="password" id="auth-password" placeholder="Password" required minlength="6">
                 <button type="submit" class="btn-primary w-full" id="auth-submit-btn">Continue</button>
             </form>
