@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hustle Admin | Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+        .admin-panel { background: var(--bg-card); padding: 30px; border-radius: 20px; border: 1px solid var(--border-color); height: 70vh; overflow-y: auto;}
+        .data-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border-color); }
+        .data-row:last-child { border-bottom: none; }
+        .stat-container { display: flex; gap: 20px; margin-top: 30px; }
+        .stat-card { background: var(--bg-input); padding: 20px; border-radius: 16px; text-align: center; width: 100%;}
+        .stat-card h3 { font-size: 2.5rem; color: var(--primary-accent); font-family: var(--font-head); margin-bottom: 5px;}
+
+        @media (max-width: 768px) {
+            .stat-container { flex-direction: column; gap: 15px; margin-top: 20px; }
+            .admin-grid { grid-template-columns: 1fr; gap: 20px; margin-top: 20px; }
+            .admin-panel { padding: 20px; height: 50vh; } 
+            .data-row { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .data-row button { width: 100%; padding: 12px; } 
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" style="position: relative; margin-top: 20px;">
+        <div class="container nav-content">
+            <a href="index.html" class="logo"><span style="font-size: 1.5rem;">🛡️</span><span class="logo-text" style="color: #ef4444;">Admin Center</span></a>
+            <button class="btn-logout" onclick="logout()">Exit</button>
+        </div>
+    </nav>
+
+    <div class="container" id="admin-content" style="display: none; padding-bottom: 50px;">
+        <div class="stat-container">
+            <div class="stat-card"><h3 id="stat-users">0</h3><p style="color: var(--text-dim);">Total Users</p></div>
+            <div class="stat-card"><h3 id="stat-gigs">0</h3><p style="color: var(--text-dim);">Active Gigs</p></div>
+            <div class="stat-card"><h3 id="stat-bids">0</h3><p style="color: var(--text-dim);">Total Bids Made</p></div>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-panel">
+                <h2 style="margin-bottom: 20px; font-family: var(--font-head);">Active Gigs</h2>
+                <div id="admin-gigs-list">Loading gigs...</div>
+            </div>
+            <div class="admin-panel">
+                <h2 style="margin-bottom: 20px; font-family: var(--font-head);">Registered Users</h2>
+                <div id="admin-users-list">Loading users...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay active" id="admin-login-modal">
+        <div class="modal-card">
+            <h2 style="color: #ef4444; margin-bottom: 20px; text-align: center;">Admin Access Only</h2>
+            <input type="password" id="admin-pass" placeholder="Enter Admin Key" class="mb-input" style="text-align: center;">
+            <button class="btn-primary w-full" style="background: #ef4444;" onclick="verifyAdmin()">Enter Command Center</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SB_URL = "https://povwoiqpyifnqofzeyfq.supabase.co";
+        const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvdndvaXFweWlmbnFvZnpleWZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5MDU3ODQsImV4cCI6MjA5MDQ4MTc4NH0.bG7RZkabX6UXWrJun8m-PGFWUN5QYra9jKXWflJehXA";
+        const _supabase = window.supabase.createClient(SB_URL, SB_KEY);
+
+        const ADMIN_SECRET = "Esop@2024"; 
+
+        function verifyAdmin() {
+            if(document.getElementById('admin-pass').value === ADMIN_SECRET) {
+                document.getElementById('admin-login-modal').classList.remove('active');
+                document.getElementById('admin-content').style.display = 'block';
+                loadAdminData();
+            } else {
+                alert("Access Denied.");
+            }
+        }
+
+        async function loadAdminData() {
+            const { data: gigs } = await _supabase.from('gigs').select('*, profiles(full_name)').order('created_at', { ascending: false });
+            const { data: users } = await _supabase.from('profiles').select('*');
+            const { count: bidsCount } = await _supabase.from('bids').select('*', { count: 'exact', head: true });
+
+            document.getElementById('stat-gigs').innerText = gigs ? gigs.length : 0;
+            document.getElementById('stat-users').innerText = users ? users.length : 0;
+            document.getElementById('stat-bids').innerText = bidsCount || 0;
+
+            // Render Gigs
+            document.getElementById('admin-gigs-list').innerHTML = gigs.map(g => `
+                <div class="data-row">
+                    <div>
+                        <strong style="color: var(--text-main);">${g.title}</strong><br>
+                        <span style="font-size: 0.8rem; color: var(--text-dim);">By ${g.profiles?.full_name || 'Unknown'} | ₦${g.price}</span>
+                    </div>
+                    <button class="btn-logout" style="font-size: 0.85rem;" onclick="adminDeleteGig(${g.id})">Delete Gig</button>
+                </div>
+            `).join('');
+
+            // Render Users
+            document.getElementById('admin-users-list').innerHTML = users.map(u => `
+                <div class="data-row">
+                    <div>
+                        <strong style="color: var(--text-main);">${u.full_name}</strong><br>
+                        <span style="font-size: 0.8rem; color: var(--text-dim);">WhatsApp: ${u.whatsapp}</span>
+                    </div>
+                    <button class="btn-logout" style="font-size: 0.85rem;" onclick="adminDeleteUser('${u.id}')">Ban User</button>
+                </div>
+            `).join('');
+        }
+
+        // Delete a single gig
+        async function adminDeleteGig(id) {
+            if(confirm("Admin Override: Delete this gig permanently?")) {
+                await _supabase.from('gigs').delete().eq('id', id);
+                loadAdminData(); 
+            }
+        }
+
+        // NEW: Delete a user and all their associated gigs
+        async function adminDeleteUser(userId) {
+            if(confirm("⚠️ DANGER: Are you sure you want to completely ban this user? This will delete their profile and ALL of their gigs immediately.")) {
+                
+                // 1. Delete all gigs posted by this user so they disappear from the feed
+                await _supabase.from('gigs').delete().eq('poster_id', userId);
+                
+                // 2. Delete their public profile so they cannot be interacted with
+                await _supabase.from('profiles').delete().eq('id', userId);
+                
+                alert("User and their gigs have been successfully removed.");
+                loadAdminData(); // Refresh the dashboard
+            }
+        }
+
+        function logout() { window.location.href = "index.html"; }
+    </script>
+</body>
+</html>
