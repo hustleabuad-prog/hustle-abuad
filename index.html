@@ -2,42 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hustle | Premium Student Market</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Campus Hustle | Elite Student Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <nav class="navbar">
         <div class="container nav-content">
-            <a href="#" class="logo">
-                <span style="font-size: 1.5rem;">💼</span> 
+            <a href="#" class="logo" id="logo-home">
+                <span style="font-size: 1.5rem;">⚡</span> 
                 <span class="logo-text">Hustle</span>
             </a>
             
             <button id="mobile-menu-btn" class="mobile-menu-btn">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </button>
 
-            <div class="nav-links" id="nav-links">
-                <button id="theme-toggle" class="theme-btn">
-                    <span id="theme-icon">☀️</span>
-                </button>
-
-                <div id="auth-container">
+           <div class="nav-links" id="nav-links">
+                <div id="auth-container" style="width: 100%;">
                     <div id="logged-out-state" class="auth-group">
                         <button class="btn-text" id="open-login">Log in</button>
                         <button class="btn-primary" id="open-signup">Sign up</button>
+                        <a href="admin.html" class="btn-text" style="color: var(--text-dim); margin-top: 5px; text-decoration: none; font-size: 0.85rem;">🛡️ Admin Login</a>
                     </div>
                     <div id="logged-in-state" style="display: none;" class="auth-group">
-                        <button class="btn-text" id="view-my-gigs">My Gigs</button>
+                        <button class="btn-text" id="menu-create-gig" style="color: var(--primary-accent); font-weight: 700;">+ Post Gig</button>
+                        <button class="btn-text" id="menu-dashboard">Dashboard</button>
+                        <button class="btn-text" id="menu-inbox" style="position: relative;">
+                            Messages <span class="notification-dot" id="msg-dot" style="display: none;"></span>
+                        </button>
                         <span class="user-greeting">Hi, <strong id="display-name" style="color: var(--text-main);">Student</strong></span>
                         <button class="btn-logout" id="logout-btn">Log out</button>
+                        <a href="admin.html" class="btn-text" style="color: var(--text-dim); text-decoration: none; font-size: 0.85rem;">🛡️ Admin Panel</a>
                     </div>
                 </div>
             </div>
@@ -45,84 +45,79 @@
     </nav>
 
     <main>
-        <section class="hero">
+        <section class="hero" id="hero-section">
             <div class="container">
                 <h1 class="hero-title">Campus <span class="text-gradient">Hustle.</span></h1>
-                <p class="hero-subtitle">The elite marketplace for student talent.</p>
+                <p class="hero-subtitle">The secure marketplace for top student talent.</p>
             </div>
         </section>
 
         <div class="container">
-            <div class="filter-section">
-                <input type="text" id="search-gigs" placeholder="Search gigs (e.g. 'Math', 'Delivery')...">
-                <div class="category-pills" id="category-pills">
-                    <button class="pill active" data-cat="All">All</button>
-                    <button class="pill" data-cat="📚 Tutoring">Tutoring</button>
-                    <button class="pill" data-cat="🏃 Errands">Errands</button>
-                    <button class="pill" data-cat="💻 Tech">Tech</button>
-                    <button class="pill" data-cat="🎨 Creative">Creative</button>
-                </div>
+            <div class="category-scroll-container" id="category-filters">
+                <button class="chip active" data-cat="All">🔥 All Gigs</button>
+                <button class="chip" data-cat="Tutoring">📚 Tutoring</button>
+                <button class="chip" data-cat="Tech">💻 Tech & Design</button>
+                <button class="chip" data-cat="Errands">🏃 Errands</button>
+                <button class="chip" data-cat="Creative">🎨 Creative</button>
             </div>
 
-            <section id="post-gig-area" style="display: none; margin-bottom: 60px;">
-                <div class="card">
-                    <h3 style="margin-bottom: 20px; color: var(--cyber-cyan);">Post a New Gig</h3>
-                    <form id="gig-form">
-                        <div class="form-grid">
-                            <input type="text" id="gTitle" placeholder="Gig Title" required minlength="5">
-                            <select id="gCategory" class="custom-select" required>
-                                <option value="📚 Tutoring">Tutoring</option>
-                                <option value="🏃 Errands">Errands</option>
-                                <option value="💻 Tech">Tech</option>
-                                <option value="🎨 Creative">Creative</option>
-                            </select>
-                        </div>
-                        <input type="text" id="gPrice" placeholder="Price (e.g. ₦2,000 or $15/hr)" required>
-                        <textarea id="gDesc" placeholder="Details..." rows="3" required minlength="10"></textarea>
-                        <button type="submit" class="btn-primary w-full" id="submit-gig-btn">Publish Gig</button>
-                    </form>
-                </div>
-            </section>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 id="feed-title" style="font-family: var(--font-head); font-size: 2rem;">Live Feed</h2>
+                <button id="toggle-alerts-btn" class="btn-action" style="width: auto; padding: 8px 16px; margin: 0; font-size: 0.85rem; display: none;">
+                    <span id="alert-icon">🔕</span> Alerts Off
+                </button>
+            </div>
 
             <section id="gigs-list">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                    <h2 id="feed-title" style="font-family: var(--font-head); font-size: 2rem;">Active Feed</h2>
-                    <button id="back-to-all" class="btn-text" style="display: none; color: var(--cyber-cyan); margin: 0;">← Back</button>
-                </div>
                 <div id="gigs-container" class="gigs-grid"></div>
             </section>
         </div>
+        
+        <button id="fab-create-gig" class="fab" style="display: none;">+</button>
     </main>
 
-    <div class="modal-overlay" id="auth-modal">
+    <div class="modal-overlay" id="auth-modal"><div class="modal-card"><button class="modal-close" id="close-modal">&times;</button><h2 id="modal-title" style="margin-bottom: 20px;">Join the Hustle</h2><form id="auth-form"><div id="signup-only-fields"><input type="text" id="auth-name" placeholder="Full Name" class="mb-input"><label class="input-label">WhatsApp Number</label><div style="display: flex; gap: 10px; margin-bottom: 15px;"><select id="auth-country-code" class="custom-select" style="width: 35%;"><option value="234">🇳🇬 +234</option><option value="1">🇺🇸 +1</option><option value="44">🇬🇧 +44</option></select><input type="tel" id="auth-whatsapp" placeholder="801 234 5678" style="width: 65%;"></div></div><input type="email" id="auth-email" placeholder="Student Email" required class="mb-input"><input type="password" id="auth-password" placeholder="Password" required minlength="6" class="mb-input"><button type="submit" class="btn-primary w-full" id="auth-submit-btn" style="margin-top: 10px;">Continue</button></form><p style="text-align: center; margin-top: 20px;"><a href="#" id="toggle-auth-type" style="color: var(--primary-accent); font-weight: 600; text-decoration: none;">Login instead</a></p></div></div>
+    
+    <div class="modal-overlay" id="gig-modal"><div class="modal-card"><button class="modal-close" id="close-gig-modal">&times;</button><h2 style="margin-bottom: 20px; color: var(--primary-accent);">Post a New Gig</h2><form id="gig-form"><label class="input-label">Task Name</label><input type="text" id="gTitle" placeholder="e.g. Design a club flyer" required minlength="5" class="mb-input"><label class="input-label">Category</label><select id="gCategory" class="custom-select mb-input" required><option value="Tutoring">📚 Tutoring</option><option value="Tech">💻 Tech & Design</option><option value="Errands">🏃 Errands</option><option value="Creative">🎨 Creative</option></select><label class="input-label">Price</label><div class="input-with-icon mb-input"><span class="currency-icon">₦</span><input type="number" id="gPrice" placeholder="Enter amount" required></div><label class="input-label">Details</label><textarea id="gDesc" placeholder="Describe what you need done..." rows="3" class="mb-input"></textarea><button type="submit" class="btn-primary w-full" id="submit-gig-btn">Publish Gig</button></form></div></div>
+    
+    <div class="modal-overlay" id="escrow-modal"><div class="modal-card" style="text-align: center;"><button class="modal-close" id="close-escrow-modal">&times;</button><div style="font-size: 3rem; margin-bottom: 10px;">🔒</div><h2 style="margin-bottom: 10px;">Secure Escrow</h2><p style="color: var(--text-dim); margin-bottom: 25px; line-height: 1.5;">Your funds will be held securely. The hustler only gets paid once you approve the completed work.</p><div style="background: var(--bg-input); padding: 20px; border-radius: 16px; margin-bottom: 25px;"><p style="color: var(--text-dim); font-size: 0.9rem; text-transform: uppercase;">Total Due</p><h3 id="escrow-amount" style="font-size: 2rem; color: var(--primary-accent); font-family: var(--font-head);">₦0</h3></div><button class="btn-primary w-full" id="confirm-escrow-btn">Pay securely</button></div></div>
+
+    <div class="modal-overlay" id="bid-modal">
         <div class="modal-card">
-            <button class="modal-close" id="close-modal">&times;</button>
-            <h2 id="modal-title">Join</h2>
-            <form id="auth-form">
-                <div id="signup-only-fields">
-                    <input type="text" id="auth-name" placeholder="Full Name">
-                    <label style="display:block; margin-bottom: 8px; margin-top: 15px; color: var(--text-dim); font-size: 0.85rem; font-weight: 600;">WhatsApp Number</label>
-                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                        <select id="auth-country-code" class="custom-select" style="width: 35%; margin-bottom: 0;">
-                            <option value="234">🇳🇬 +234</option>
-                            <option value="1">🇺🇸 +1</option>
-                            <option value="44">🇬🇧 +44</option>
-                            <option value="27">🇿🇦 +27</option>
-                            <option value="254">🇰🇪 +254</option>
-                            <option value="233">🇬🇭 +233</option>
-                        </select>
-                        <input type="tel" id="auth-whatsapp" placeholder="801 234 5678" style="width: 65%; margin-bottom: 0;">
-                    </div>
+            <button class="modal-close" id="close-bid-modal">&times;</button>
+            <h2 style="margin-bottom: 5px;">Make an Offer</h2>
+            <p style="color: var(--text-dim); margin-bottom: 20px; font-size: 0.9rem;">Task: <strong id="bid-task-name" style="color: var(--text-main);">...</strong></p>
+            <form id="bid-form">
+                <label class="input-label">Your Counter Price</label>
+                <div class="input-with-icon mb-input">
+                    <span class="currency-icon">₦</span>
+                    <input type="number" id="bPrice" placeholder="Enter your offer" required>
                 </div>
-                <input type="email" id="auth-email" placeholder="Email" required style="margin-top: 15px;">
-                <input type="password" id="auth-password" placeholder="Password" required minlength="6">
-                <button type="submit" class="btn-primary w-full" id="auth-submit-btn">Continue</button>
+                <label class="input-label">Add a Note (Why this price?)</label>
+                <textarea id="bNote" placeholder="e.g. I have premium software for this..." rows="2" class="mb-input" required></textarea>
+                <button type="submit" class="btn-primary w-full" id="submit-bid-btn">Send Offer</button>
             </form>
-            <p style="text-align: center; margin-top: 20px;">
-                <a href="#" id="toggle-auth-type" style="color: var(--cyber-cyan); font-weight: 700; text-decoration: none;">Login instead</a>
-            </p>
         </div>
     </div>
+
+    <div class="modal-overlay" id="chat-modal">
+        <div class="modal-card chat-card">
+            <button class="modal-close" id="close-chat-modal">&times;</button>
+            <div class="chat-header">
+                <h3 id="chat-user-name">User</h3>
+                <p style="font-size: 0.8rem; color: var(--text-dim);" id="chat-gig-title">Gig Title</p>
+            </div>
+            <div class="chat-history" id="chat-history">
+                <div class="chat-bubble them">Hi! Is this still available?</div>
+            </div>
+            <form class="chat-input-area" id="chat-form">
+                <input type="text" id="chat-message" placeholder="Type a message..." required autocomplete="off">
+                <button type="submit" class="btn-primary" style="padding: 12px; border-radius: 50%;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
